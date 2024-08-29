@@ -1,5 +1,6 @@
 package com.dragons.mugloar.service;
 
+import jakarta.annotation.PreDestroy;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,5 +38,10 @@ public class TaskRunnerService {
                 logger.error("Task {} failed - {}", correspondingWrapper.getDescription(), e.getLocalizedMessage());
             }
         }
+    }
+
+    @PreDestroy
+    public void shutdown() {
+        this.executorService.shutdown();
     }
 }
