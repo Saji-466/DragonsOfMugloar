@@ -34,7 +34,7 @@ public class MugloarApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        int parallelGames = extractGameCount(args[0]);
+        int parallelGames = args.length > 0 ? extractGameCount(args[0]) : 1;
         List<Callable<GameState>> games = IntStream.range(0, parallelGames).mapToObj(
                 i -> gameFactory.initializeGame()
         ).collect(Collectors.toUnmodifiableList());
