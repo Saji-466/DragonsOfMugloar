@@ -1,6 +1,7 @@
 package com.dragons.mugloar;
 
 import com.dragons.mugloar.domain.GameState;
+import com.dragons.mugloar.service.CallableWrapper;
 import com.dragons.mugloar.service.GameFactory;
 import com.dragons.mugloar.service.TaskRunnerService;
 import org.slf4j.Logger;
@@ -34,10 +35,13 @@ public class MugloarApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        int parallelGames = args.length > 0 ? extractGameCount(args[0]) : 1;
-        List<Callable<GameState>> games = IntStream.range(0, parallelGames).mapToObj(
-                i -> gameFactory.initializeGame()
-        ).collect(Collectors.toUnmodifiableList());
+        int parallelGames = args.length > 0 ? extractGameCount(args[0]) : 20;
+        List<CallableWrapper<GameState>> games = IntStream.range(0, parallelGames).mapToObj(
+                i -> {
+                    var game = gameFactory.initializeGame();
+                    return new CallableWrapper<>(game, game.getGameId());
+                }
+        ).toList();
         taskRunnerService.runTasksInParallel(games);
     }
 

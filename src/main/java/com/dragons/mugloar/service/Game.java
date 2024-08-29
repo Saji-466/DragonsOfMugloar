@@ -53,4 +53,8 @@ public class Game implements Callable<GameState> {
     public GameState call() {
         return playGame();
     }
+
+    public String getGameId() {
+        return this.state.getGameId();
+    }
 }

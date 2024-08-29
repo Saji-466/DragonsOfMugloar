@@ -24,7 +24,7 @@ public class ErrorDecoder implements feign.codec.ErrorDecoder {
                 if (response.status() == 400 && responseBody.contains(RETRY_ERROR)) {
                     return new RetryableException(
                             response.status(),
-                            "400 Bad Request - Retrying",
+                            "400 Bad Request " + responseBody,
                             response.request().httpMethod(),
                             new Date(),
                             response.request()
