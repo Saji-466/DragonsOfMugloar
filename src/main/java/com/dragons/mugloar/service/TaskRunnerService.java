@@ -34,7 +34,7 @@ public class TaskRunnerService {
                         .orElseThrow();
 
                 CallableWrapper<T> correspondingWrapper = futureToCallableMap.get(failedFuture);
-                logger.error("Game {} failed - {}", correspondingWrapper.getDescription(), e.getLocalizedMessage());
+                logger.error("Task {} failed - {}", correspondingWrapper.getDescription(), e.getLocalizedMessage());
             }
         }
     }
